@@ -14,6 +14,7 @@ object DatabaseFactory {
     private val dbUrl: String by lazy { appConfig.property("db.jdbcUrl").getString() }
     private val dbUser: String by lazy { appConfig.property("db.dbUser").getString() }
     private val dbPassword: String by lazy { appConfig.property("db.dbPassword").getString() }
+    private val maxPoolSize: Int by lazy { appConfig.property("db.maxPoolSize").getString().toInt() }
 
     fun init(config: ApplicationConfig) {
         appConfig = config
@@ -22,24 +23,24 @@ object DatabaseFactory {
 
         val flyway = Flyway.configure().dataSource(dbUrl, dbUser, dbPassword)
             .locations("classpath:db/migration")
-//            .baselineOnMigrate(true)
+            .baselineOnMigrate(true)
             .outOfOrder(true)
             .load()
 
         if (appConfig.property("flyway.clean").getString().toBoolean()) {
-            flyway.clean() // clean existing tables before migration applying
+            flyway.clean()
         }
 
         flyway.migrate()
     }
 
-    fun hikari(): HikariDataSource {
+    private fun hikari(): HikariDataSource {
         val config = HikariConfig()
         config.driverClassName = dbDriver
         config.jdbcUrl = dbUrl
         config.username = dbUser
         config.password = dbPassword
-        config.maximumPoolSize = appConfig.property("db.maxPoolSize").getString().toInt()
+        config.maximumPoolSize = maxPoolSize
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
         config.validate()

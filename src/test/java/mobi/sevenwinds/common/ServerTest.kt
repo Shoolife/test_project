@@ -3,6 +3,7 @@ package mobi.sevenwinds.common
 import com.typesafe.config.ConfigFactory
 import io.ktor.config.*
 import io.ktor.server.engine.*
+import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.netty.*
 import io.ktor.util.*
 import io.restassured.RestAssured

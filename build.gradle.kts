@@ -7,7 +7,7 @@ val logback_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.4.32"
+    kotlin("jvm") version "1.5.30" // Обновлено с 1.4.32 на 1.5.30
     id("com.github.johnrengelman.shadow") version "5.0.0"
 }
 
@@ -40,20 +40,20 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
     implementation("com.github.papsign:Ktor-OpenAPI-Generator:0.2-beta.20")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8") // needed for multipart parsing
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.8") // needed for Optional<> parsing
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.8")
     implementation("org.webjars:swagger-ui:3.25.0")
-    implementation("org.reflections:reflections:0.9.11") // only used while initializing
+    implementation("org.reflections:reflections:0.9.11")
 
     implementation("at.favre.lib:bcrypt:0.9.0")
 
-    implementation("org.postgresql:postgresql:42.2.12")
+    implementation("org.postgresql:postgresql:42.7.2")
 
     implementation("org.jetbrains.exposed:exposed:0.17.13")
     implementation("com.zaxxer:HikariCP:2.7.8")
-    implementation("org.flywaydb:flyway-core:5.2.4")
+    implementation("org.flywaydb:flyway-core:6.0.0")
 
-    implementation("com.squareup.retrofit2:retrofit:2.3.0")
+    implementation("com.squareup.retrofit2:retrofit:2.5.0")
     implementation("com.squareup.retrofit2:converter-jackson:2.3.0")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.10.0")
@@ -64,7 +64,10 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.19.0")
     testImplementation("io.rest-assured:rest-assured:4.3.3")
     testImplementation("org.hamcrest:hamcrest:2.2")
+
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
 }
+
 
 tasks.withType<Jar> {
     manifest {
@@ -80,7 +83,13 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

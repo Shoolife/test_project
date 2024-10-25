@@ -49,7 +49,7 @@ fun Application.module() {
         level = Level.INFO
         filter { call ->
             Config.logAllRequests ||
-            call.request.path().startsWith("/")
+                    call.request.path().startsWith("/")
                     && (call.response.status()?.value ?: 0) >= 500
         }
     }

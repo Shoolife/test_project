@@ -11,7 +11,6 @@ import kotlin.reflect.KType
 fun Application.initSwagger() {
 
     install(OpenAPIGen) {
-        // basic info
         info {
             version = Const.version
             title = "Construction Dashboard"
@@ -27,7 +26,6 @@ fun Application.initSwagger() {
                 println("Swagger available at $url/swagger-ui/index.html?url=/openapi.json")
             }
 
-        //optional custom schema object namer
         replaceModule(DefaultSchemaNamer, object : SchemaNamer {
             val regex = Regex("[A-Za-z0-9_.]+")
             override fun get(type: KType): String {

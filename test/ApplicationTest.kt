@@ -16,12 +16,13 @@ import io.ktor.server.testing.*
 
 class ApplicationTest {
     @Test
-    fun testRoot() {
+    fun testRootRedirect() {
         withTestApplication({ module(testing = true) }) {
             handleRequest(HttpMethod.Get, "/").apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertEquals("HELLO WORLD!", response.content)
+                assertEquals(HttpStatusCode.Found, response.status())
+                assertEquals("/swagger-ui/index.html?url=/openapi.json", response.headers["Location"])
             }
         }
     }
 }
+

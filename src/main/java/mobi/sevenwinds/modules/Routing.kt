@@ -9,7 +9,9 @@ import io.ktor.routing.*
 import mobi.sevenwinds.app.budget.budget
 
 fun NormalOpenAPIRoute.swaggerRouting() {
-    tag(SwaggerTag.Бюджет) { budget() }
+    tag(SwaggerTag.Бюджет) {
+        budget()
+    }
 }
 
 fun Routing.serviceRouting() {
